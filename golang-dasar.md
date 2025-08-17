@@ -1,6 +1,5 @@
 # Belajar Go Lang -- Session: *Golang Dasar*
 
-
 ## 1. Pengenalan Go
 
 -   **Go (Golang)** adalah bahasa pemrograman yang dikembangkan oleh
@@ -203,3 +202,74 @@ jumlah karakter Unicode.
     sebelum masuk ke array, slice, map, dan struct.
 -   Sangat efisien untuk membuat aplikasi skala besar seperti
     **microservices** karena kompile cepat dan binary ringan.
+
+------------------------------------------------------------------------
+
+## 8. Deklarasi & Inisialisasi Variabel
+
+-   Di Go, variabel bisa dibuat dengan dua cara:
+
+### a. Menggunakan `var`
+
+``` go
+var name string = "Hary"
+var age int = 21
+```
+
+-   Kelebihan: bisa eksplisit menentukan tipe data.
+
+------------------------------------------------------------------------
+
+### b. Tanpa `var` → menggunakan `:=`
+
+``` go
+name := "Hary Capri"
+alas := 21
+```
+
+-   Go otomatis mendeteksi tipe data dari nilai yang diberikan.
+    -   `"Hary Capri"` → `string`
+    -   `21` → `int`
+-   Hanya bisa digunakan **di dalam function** (tidak bisa untuk
+    deklarasi global).
+
+------------------------------------------------------------------------
+
+### c. Contoh Lengkap
+
+``` go
+package main
+
+import "fmt"
+
+func main() {
+    // Deklarasi eksplisit dengan var
+    var umur int = 22
+
+    // Inisialisasi singkat dengan :=
+    name := "Hary Capri"
+    alas := 21
+
+    fmt.Println("Nama:", name)
+    fmt.Println("Umur:", umur)
+    fmt.Println("Alas:", alas)
+}
+```
+
+**Output:**
+
+    Nama: Hary Capri
+    Umur: 22
+    Alas: 21
+
+------------------------------------------------------------------------
+
+### Insight Tambahan
+
+-   Gunakan `var` kalau butuh deklarasi tanpa langsung memberi nilai
+    (misalnya `var count int`).
+-   Gunakan `:=` untuk kode yang lebih singkat & clean, terutama saat
+    deklarasi langsung dengan nilai.
+-   Best practice: di Go, lebih sering digunakan `:=` di dalam function,
+    sementara `var` dipakai untuk variabel global atau ketika butuh tipe
+    data tertentu.
