@@ -263,13 +263,68 @@ func main() {
     Alas: 21
 
 ------------------------------------------------------------------------
+## d. Multiple Variable Declaration di Go
 
-### Insight Tambahan
+Go juga mendukung deklarasi **multiple variable** dalam satu blok menggunakan tanda kurung `()`. Hal ini mempermudah pengelompokan variabel yang terkait.
 
--   Gunakan `var` kalau butuh deklarasi tanpa langsung memberi nilai
-    (misalnya `var count int`).
--   Gunakan `:=` untuk kode yang lebih singkat & clean, terutama saat
-    deklarasi langsung dengan nilai.
--   Best practice: di Go, lebih sering digunakan `:=` di dalam function,
-    sementara `var` dipakai untuk variabel global atau ketika butuh tipe
-    data tertentu.
+### Contoh:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var (
+        firstName = "Hary"
+        lastName  = "Capri"
+        Age       = 21
+    )
+
+    fmt.Println(firstName, lastName, Age)
+}
+```
+
+### Output:
+```
+Hary Capri 21
+```
+------------------------------------------------------------------------
+## Constant di Go
+
+Selain variabel, Go juga memiliki **constant** yaitu nilai yang tidak bisa diubah lagi setelah pertama kali dibuat dan di-assign.
+
+### Aturan Constant
+- Dideklarasikan menggunakan keyword `const`.
+- Nilai harus sudah diketahui saat compile-time.
+- Tidak bisa diubah setelah didefinisikan.
+
+### Contoh:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    const name string = "Hary Capri"
+    const age = 25
+
+    const (
+        University = "UPNVJ"
+        IPK        = 3.92
+    )
+
+    fmt.Println(name)
+    fmt.Println(age)
+    fmt.Println(IPK)
+    fmt.Println(University)
+}
+```
+
+### Output:
+```
+Hary Capri
+25
+3.92
+UPNVJ
+```
+------------------------------------------------------------------------
