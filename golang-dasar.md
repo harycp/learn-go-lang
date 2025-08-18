@@ -530,3 +530,55 @@ false
 - `||` menghasilkan `true` jika **salah satu operand true**.
 - `!` membalik nilai boolean.
 - Operasi boolean sangat penting dalam pengendalian alur program (misalnya `if`, `for`, atau logika kompleks lainnya).
+
+
+### 15. Array di Go
+
+Array adalah kumpulan elemen dengan jumlah tetap dan bertipe data sama.
+
+### Karakteristik Array di Go
+- Panjang array harus ditentukan dan **tidak bisa berubah** setelah deklarasi.
+- Semua elemen array harus memiliki tipe data yang sama.
+- Index dimulai dari `0`.
+
+### Contoh:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Deklarasi array sekaligus inisialisasi
+    var names = [4]string{
+        "John",
+        "Paul",
+        "George",
+        "Ringo",
+    }
+
+    fmt.Println(names)
+
+    // Deklarasi array kosong dengan panjang 5
+    var car [5]string
+
+    car[0] = "Hyundai"
+    car[1] = "Toyota"
+    car[2] = "BYD"
+    car[3] = "Honda"
+    car[4] = "Tesla"
+
+    fmt.Println(car)
+}
+```
+
+### Output:
+```
+[John Paul George Ringo]
+[Hyundai Toyota BYD Honda Tesla]
+```
+
+### Insight:
+- Array berguna untuk menyimpan data yang jumlahnya sudah pasti.
+- Jika butuh ukuran dinamis, biasanya digunakan **slice** (nanti akan dibahas setelah array).
+- Mengakses elemen array: `array[index]`.
+- Panjang array bisa diperiksa dengan fungsi `len(array)`. 
