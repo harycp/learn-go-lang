@@ -289,7 +289,7 @@ func main() {
 Hary Capri 21
 ```
 ------------------------------------------------------------------------
-## Constant di Go
+## 9. Constant di Go
 
 Selain variabel, Go juga memiliki **constant** yaitu nilai yang tidak bisa diubah lagi setelah pertama kali dibuat dan di-assign.
 
@@ -328,3 +328,92 @@ Hary Capri
 UPNVJ
 ```
 ------------------------------------------------------------------------
+### 10. Type Conversion
+Go bersifat **strongly typed**, jadi tipe data berbeda tidak bisa langsung dicampur. Harus dilakukan **konversi tipe** secara eksplisit.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var a int32 = 90
+    var b = int64(a) // konversi int32 ke int64
+
+    fmt.Println(b)
+
+    var name string = "Hary Capri"
+    var pick = name[2] // ambil byte ke-2 (index dimulai dari 0)
+
+    var conversion = string(pick) // konversi byte ke string
+    fmt.Println(conversion)
+}
+```
+
+**Output:**
+```
+90
+r
+```
+------------------------------------------------------------------------
+### 11. Type Declaration
+Go memungkinkan membuat **tipe data baru** berdasarkan tipe bawaan.
+
+```go
+package main
+
+import "fmt"
+
+type noNim string
+type noKk int
+
+func main() {
+    var nim noNim = "2210511023"
+    var kk noKk = 22892929291
+
+    fmt.Println(nim)
+    fmt.Println(kk)
+}
+```
+
+**Output:**
+```
+2210511023
+22892929291
+```
+
+**Insight:**
+- Berguna untuk memberikan konteks pada data (misalnya `noNim` dan `noKk`), walaupun dasarnya tetap string atau int.
+- Membantu readability & keamanan kode.
+------------------------------------------------------------------------
+### 12. Operasi Matematika
+Go mendukung operasi matematika standar: `+`, `-`, `*`, `/`, dan `%` (modulus).
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    a := 2
+    b := 4
+    c := 10
+    d := 9
+    e := 7
+
+    result := (a + (b * c) - d) / e
+    fmt.Println(result)
+}
+```
+
+**Output:**
+```
+4
+```
+
+---
+
+### Insight
+- **Konversi tipe** wajib di Go, tidak ada auto-casting.
+- **Type declaration** memudahkan memberi identitas baru pada tipe bawaan.
+- **Operasi matematika** sama seperti bahasa lain, namun tipe data harus konsisten (tidak bisa langsung mencampur `int` dan `float64` tanpa konversi).
