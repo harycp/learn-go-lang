@@ -400,15 +400,19 @@ func main() {
     c := 10
     d := 9
     e := 7
+	f := 2
 
     result := (a + (b * c) - d) / e
+	modulus := result % f
     fmt.Println(result)
+    fmt.Println(modulus)
 }
 ```
 
 **Output:**
 ```
 4
+0
 ```
 
 ---
@@ -417,3 +421,112 @@ func main() {
 - **Konversi tipe** wajib di Go, tidak ada auto-casting.
 - **Type declaration** memudahkan memberi identitas baru pada tipe bawaan.
 - **Operasi matematika** sama seperti bahasa lain, namun tipe data harus konsisten (tidak bisa langsung mencampur `int` dan `float64` tanpa konversi).
+------------------------------------------------------------------------
+### 13. Operator Perbandingan:
+- `==` : sama dengan
+- `!=` : tidak sama dengan
+- `>`  : lebih besar
+- `<`  : lebih kecil
+- `>=` : lebih besar atau sama dengan
+- `<=` : lebih kecil atau sama dengan
+
+### Contoh:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    a := "Hary"
+    b := "Hary"
+    c := 2
+    d := 8
+
+    equal := a == b
+    notEqual := a != b
+    greater := c > d
+    less := c < d
+    greaterEqual := c >= d
+    lessEqual := c <= d
+
+    fmt.Println(equal)
+    fmt.Println(notEqual)
+    fmt.Println(greater)
+    fmt.Println(less)
+    fmt.Println(greaterEqual)
+    fmt.Println(lessEqual)
+}
+```
+
+### Output:
+```
+true
+false
+false
+true
+false
+true
+```
+
+### Insight:
+- Operator perbandingan di Go bekerja pada tipe data yang **sama** (misalnya string dengan string, int dengan int).
+- Hasil evaluasi selalu berupa **boolean**.
+- Berguna untuk logika percabangan (if-else) dan kontrol program lainnya.
+
+### 14. Operasi Boolean di Go
+
+Go menyediakan operator boolean standar: `&&` (AND), `||` (OR), dan `!` (NOT). Operator ini digunakan untuk menggabungkan atau membalik nilai boolean.
+
+### Contoh:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var option1, option2, option3, option4, option5, option6, option7, option8, option9 bool
+    var benar bool = true
+    var salah bool = false
+
+    option1 = benar && benar
+    option2 = benar && salah
+    option3 = salah && benar
+    option4 = salah && salah
+
+    option5 = benar || benar
+    option6 = benar || salah
+    option7 = salah || benar
+    option8 = salah || salah
+
+    option9 = !(benar && benar)
+    
+    fmt.Println(option1)
+    fmt.Println(option2)
+    fmt.Println(option3)
+    fmt.Println(option4)
+    fmt.Println(option5)
+    fmt.Println(option6)
+    fmt.Println(option7)
+    fmt.Println(option8)
+    fmt.Println(option9)
+}
+```
+
+### Output:
+```
+true
+false
+false
+false
+true
+true
+true
+false
+false
+```
+
+### Insight:
+- `&&` menghasilkan `true` hanya jika **kedua operand true**.
+- `||` menghasilkan `true` jika **salah satu operand true**.
+- `!` membalik nilai boolean.
+- Operasi boolean sangat penting dalam pengendalian alur program (misalnya `if`, `for`, atau logika kompleks lainnya).

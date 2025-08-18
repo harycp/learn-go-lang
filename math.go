@@ -8,7 +8,11 @@ func main() {
 	c := 10
 	d := 9
 	e := 7
+	f := 2
 
 	result := (a + (b * c) - d) / e
+
+	modulus := result % f
 	fmt.Println(result)
+	fmt.Println(modulus)
 }
