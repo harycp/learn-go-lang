@@ -582,3 +582,173 @@ func main() {
 - Jika butuh ukuran dinamis, biasanya digunakan **slice** (nanti akan dibahas setelah array).
 - Mengakses elemen array: `array[index]`.
 - Panjang array bisa diperiksa dengan fungsi `len(array)`. 
+
+
+### 16. Slice di Go — Penjelasan Lengkap
+
+Slice adalah struktur data dinamis yang **mereferensikan** array di belakang layar. Secara internal slice terdiri dari:
+- **Pointer** → alamat elemen pertama yang dapat diakses slice pada array asal
+- **Length (len)** → jumlah elemen aktual dalam slice
+- **Capacity (cap)** → jumlah maksimum elemen dari posisi pointer hingga akhir array asal
+
+> Zero value slice adalah `nil` (len = 0, cap = 0). Berbeda dengan empty slice `[]T{}` yang len = 0 tapi **bukan** nil.
+
+---
+
+### Cara Membuat Slice
+1) **Slice literal** (langsung):
+```go
+names := []string{"Hary", "Capri", "Sukro"}
+```
+2) **Slicing** dari array/slice:
+```go
+arr := [5]int{10, 20, 30, 40, 50}
+s := arr[1:4] // -> {20,30,40}
+```
+3) **make** (dengan panjang & kapasitas):
+```go
+s := make([]int, 3)        // len=3, cap=3, berisi zero value {0,0,0}
+t := make([]int, 3, 5)     // len=3, cap=5
+```
+
+---
+
+### Notasi Slicing & Dampaknya
+Misal `base := []string{"A","B","C","D","E","F"}` (len=6, cap=6)
+
+- **`base[low:high]`** → elemen index `low` s.d. `high-1`
+    - `u := base[2:5]` → `{C,D,E}`  (len=3, cap=4 → sisa dari pos 2 hingga akhir)
+- **`base[low:]`** → dari `low` hingga akhir
+    - `v := base[3:]` → `{D,E,F}`   (len=3, cap=3)
+- **`base[:high]`** → dari awal hingga `high-1`
+    - `w := base[:4]` → `{A,B,C,D}` (len=4, cap=6)
+- **`base[:]`** → seluruh isi (re-slice penuh)
+    - `x := base[:]`  → `{A,B,C,D,E,F}` (len=6, cap=6)
+- **Full slice 3-indeks `base[low:high:max]`** → mengatur **capacity** slice (`cap = max - low`). Berguna agar `append` **tidak** menimpa array asal.
+    - `y := base[1:3:3]` → `{B,C}` (len=2, cap=2) → `append(y, "Z")` pasti **alokasi array baru**.
+
+> **Catatan penting:** `cap` dihitung relatif dari posisi `low` menuju batas `max` (atau akhir array jika 2-indeks). Kapasitas menentukan apakah `append` akan menimpa array lama atau mengalokasikan array baru.
+
+---
+
+### `len()` dan `cap()`
+```go
+s := []int{1,2,3}
+fmt.Println(len(s)) // 3
+fmt.Println(cap(s)) // 3 (tergantung asalnya)
+```
+
+---
+
+### `append` — Menambah Elemen
+- `append(dst, elems...)` **mengembalikan slice baru** (bisa menunjuk array lama atau array baru). **Selalu simpan hasilnya!**
+- Jika masih ada kapasitas, elemen baru diletakkan pada array yang sama → dapat **menimpa** data jika ada slice lain yang mereferensikan array tersebut.
+- Jika kapasitas habis, Go mengalokasikan **array baru**, menyalin isi lama, lalu menambahkan elemen.
+
+Contoh dampak `append` pada array asal vs array baru:
+```go
+base := [...]string{"A","B","C","D"}
+s := base[1:3]           // {B,C}, len=2 cap=3 (B..D)
+s[0] = "B*"              // base -> {A,"B*","C","D"}
+
+s2 := append(s, "X")     // masih muat (cap=3), menulis ke base index 3
+fmt.Println(base)         // {A B* C X}  <- base ikut berubah!
+
+// Batasi kapasitas dengan full slice 3-indeks
+s3 := base[0:2:2]         // {A, B*}, cap=2
+s4 := append(s3, "Y")    // cap penuh -> alokasi array baru
+fmt.Println(base)         // {A B* C X}  (tidak berubah)
+fmt.Println(s4)           // {A B* Y}
+```
+
+---
+
+### `make` — Membuat Slice Kosong Berkapasitas
+```go
+nums := make([]int, 0, 4) // len=0 cap=4
+nums = append(nums, 1,2,3)
+fmt.Println(len(nums), cap(nums)) // 3 4
+```
+> `make` menginisialisasi backing array dengan zero value dan mengatur len/cap sesuai parameter.
+
+---
+
+### `copy` — Menyalin Isi Slice (Detach)
+Gunakan `copy` untuk **menyalin** isi slice ke backing array baru sehingga perubahan tidak saling memengaruhi.
+```go
+src := []int{1,2,3}
+dst := make([]int, len(src))
+copy(dst, src)            // mengembalikan jumlah elemen yang disalin
+src[0] = 99
+fmt.Println(src)          // [99 2 3]
+fmt.Println(dst)          // [1 2 3]  (terpisah)
+```
+
+---
+
+### Contoh
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var name = []string{
+        "Hary","Capri","Sukro","Makro","Surtono","Tartono","Hendrawan","Hensubroto","Nabuoloto",
+    }
+
+    slice1 := name[3:9]  // [Makro .. Nabuoloto], len=6 cap=6
+    slice2 := name[5:]   // [Tartono .. Nabuoloto], len=4 cap=4
+    slice3 := name[:4]   // [Hary Capri Sukro Makro]
+    slice4 := name[:]    // seluruh isi
+
+    fmt.Println(slice1)
+    fmt.Println(slice2)
+    fmt.Println(slice3)
+    fmt.Println(slice4)
+
+    // len & cap
+    fmt.Println(len(slice1))
+    fmt.Println(cap(slice1))
+
+    // Contoh array -> slice dan efek edit
+    var days = [...]string{"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"}
+    daysSlice1 := days[0:7]
+    daysSlice1[1] = "Selasa Baru"
+    daysSlice1[2] = "Rabu Baru"
+    fmt.Println(daysSlice1)
+
+    // append mungkin memodifikasi array asal jika masih ada cap
+    daysSlice2 := append(daysSlice1, "Hari Baru")
+    fmt.Println(daysSlice2)
+    fmt.Println(days)
+
+    // Gunakan full slice 3-indeks untuk membatasi cap -> paksa alokasi baru saat append
+    safe := days[0:2:2]                 // len=2 cap=2
+    safeAppended := append(safe, "X")  // alokasi baru
+    fmt.Println(safe, safeAppended)
+
+    // make & append
+    newSlice := make([]string, 9, 11)
+    for i := 0; i < 9; i++ { newSlice[i] = "Hari" }
+    appendSlice := append(newSlice, "Hari")
+    fmt.Println(newSlice)
+    fmt.Println(appendSlice)
+
+    // copy untuk detach
+    cloned := make([]string, len(slice2))
+    copy(cloned, slice2)
+    slice2[0] = "(Edited)"
+    fmt.Println("slice2:", slice2)
+    fmt.Println("cloned:", cloned) // tetap data lama
+}
+```
+
+---
+
+### Insight
+- Slice = pointer + len + cap.
+- `len` = jumlah elemen; `cap` = ruang yang tersedia hingga batas backing array.
+- `append` harus ditampung hasilnya; bisa menimpa array asal jika masih ada kapasitas.
+- Batasi efek samping dengan full slice `a[low:high:max]` atau gunakan `copy` untuk memisahkan data.
+- Gunakan `make` untuk menyiapkan slice dengan kapasitas yang direncanakan agar mengurangi alokasi ulang.
