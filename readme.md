@@ -850,3 +850,56 @@ Hapus name :
 - Hati-hati: assignment `mapB = mapA` membuat referensi, bukan salinan baru. Perubahan di salah satu akan memengaruhi yang lain.
 - Untuk benar-benar meng-copy isi map, perlu iterasi manual atau utility tertentu.
 ------------------------------------------------------------------------
+### 17. If Statement di Go
+
+Go menyediakan percabangan menggunakan `if`, `else if`, dan `else` untuk mengeksekusi blok kode berdasarkan kondisi tertentu.
+
+### Karakteristik If Statement
+- Kondisi `if` harus berupa ekspresi boolean (`true` atau `false`).
+- Bisa menggunakan satu atau beberapa blok `else if`.
+- `else` akan dieksekusi jika semua kondisi sebelumnya salah.
+- Tidak menggunakan tanda kurung `()` untuk kondisi, hanya `{}` untuk blok kode.
+
+---
+
+### Contoh:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    input := "tambah"
+    var a, b, result int
+
+    a = 2
+    b = 9
+
+    if input == "tambah" {
+        result = a + b
+    } else if input == "kurang" {
+        result = a - b
+    } else {
+        result = a * b
+    }
+
+    fmt.Println("Input :", input, "Hasil :", result)
+}
+```
+
+### Output:
+```
+Input : tambah Hasil : 11
+```
+
+---
+
+### Insight
+- `if` di Go sederhana: tidak perlu `()` seperti di Java/C.
+- Bisa dipakai dengan deklarasi singkat sebelum kondisi:
+  ```go
+  if x := 10; x > 5 {
+      fmt.Println("x lebih besar dari 5")
+  }
+  ```
+- Sangat umum digunakan untuk logika percabangan dalam program.
