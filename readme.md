@@ -903,3 +903,161 @@ Input : tambah Hasil : 11
   }
   ```
 - Sangat umum digunakan untuk logika percabangan dalam program.
+------------------------------------------------------------------------
+### 18. Switch Statement di Go
+
+Selain `if-else`, Go juga menyediakan **switch statement** untuk percabangan yang lebih sederhana saat membandingkan satu variabel dengan banyak kemungkinan nilai.
+
+### Karakteristik Switch di Go
+- Mengevaluasi ekspresi sekali, lalu dibandingkan dengan setiap `case`.
+- Jika cocok, blok kode di `case` tersebut dieksekusi.
+- Secara default, Go **tidak melakukan fallthrough** ke case berikutnya (berbeda dengan C/Java). Jika ingin melanjutkan ke case berikutnya, harus menuliskan `fallthrough`.
+- `default` dieksekusi jika tidak ada case yang cocok.
+
+---
+
+### Contoh:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var option string
+    var a, b, result float64
+
+    option = "bagi"
+    a = 9
+    b = 4
+
+    switch option {
+    case "tambah":
+        result = a + b
+    case "kurang":
+        result = a - b
+    case "bagi":
+        result = a / b
+    case "kali":
+        result = a * b
+    default:
+        result = 0
+    }
+
+    fmt.Println(result)
+}
+```
+
+### Output:
+```
+2.25
+```
+
+---
+
+### Insight
+- Gunakan `switch` saat ada banyak percabangan dari satu variabel.
+- Lebih rapi daripada `if-else if` yang panjang.
+- Mendukung penggunaan tanpa ekspresi langsung:
+  ```go
+  switch {
+  case a > b:
+      fmt.Println("a lebih besar")
+  case a < b:
+      fmt.Println("a lebih kecil")
+  default:
+      fmt.Println("sama")
+  }
+  ```
+------------------------------------------------------------------------
+### 19. For Loop, Continue, dan Break di Go
+
+Go hanya memiliki satu jenis loop, yaitu **for**, namun dapat digunakan dalam berbagai bentuk.
+
+---
+
+### Bentuk For Loop
+1. **While-like loop** (hanya kondisi):
+```go
+count := 1
+for count <= 10 {
+    fmt.Println(count)
+    count++
+}
+```
+
+2. **Classic for** (init; condition; post):
+```go
+for total := 0; total < count; total++ {
+    if total%2 == 0 {
+        fmt.Println("Genap:", total)
+    }
+    fmt.Println("Ganjil:", total)
+}
+```
+
+3. **Loop dengan slice menggunakan index:**
+```go
+names := []string{"Alice", "Bob", "Charlie", "Ucup"}
+for i := 0; i < len(names); i++ {
+    fmt.Println("Index ke-", i, "=", names[i])
+}
+```
+
+4. **Range loop:**
+```go
+for index, name := range names {
+    fmt.Println("Index ke-", index, "=", name)
+}
+
+for _, name := range names {
+    fmt.Println("names =", name)
+}
+```
+
+---
+
+### Break
+`break` digunakan untuk menghentikan loop lebih awal.
+```go
+for i := 0; i < 10; i++ {
+    if i == 5 {
+        fmt.Println(i)
+        break
+    }
+}
+```
+
+**Output:**
+```
+5
+```
+
+---
+
+### Continue
+`continue` digunakan untuk melewati iterasi saat ini dan lanjut ke iterasi berikutnya.
+```go
+for i := 0; i < 10; i++ {
+    if i%2 == 1 {
+        continue
+    }
+    fmt.Println(i)
+}
+```
+
+**Output:**
+```
+0
+2
+4
+6
+8
+```
+
+---
+
+### Insight
+- **for** di Go fleksibel, bisa menggantikan `while` maupun `for` klasik di bahasa lain.
+- `range` mempermudah iterasi pada array, slice, map, atau string.
+- `break` dan `continue` bekerja sama seperti bahasa lain (C/Java/JS).
+- Untuk loop tak terbatas, gunakan `for { ... }` lalu hentikan dengan `break`.
