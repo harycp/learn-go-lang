@@ -472,7 +472,7 @@ true
 - Operator perbandingan di Go bekerja pada tipe data yang **sama** (misalnya string dengan string, int dengan int).
 - Hasil evaluasi selalu berupa **boolean**.
 - Berguna untuk logika percabangan (if-else) dan kontrol program lainnya.
-
+------------------------------------------------------------------------
 ### 14. Operasi Boolean di Go
 
 Go menyediakan operator boolean standar: `&&` (AND), `||` (OR), dan `!` (NOT). Operator ini digunakan untuk menggabungkan atau membalik nilai boolean.
@@ -530,8 +530,7 @@ false
 - `||` menghasilkan `true` jika **salah satu operand true**.
 - `!` membalik nilai boolean.
 - Operasi boolean sangat penting dalam pengendalian alur program (misalnya `if`, `for`, atau logika kompleks lainnya).
-
-
+------------------------------------------------------------------------
 ### 15. Array di Go
 
 Array adalah kumpulan elemen dengan jumlah tetap dan bertipe data sama.
@@ -752,3 +751,102 @@ func main() {
 - `append` harus ditampung hasilnya; bisa menimpa array asal jika masih ada kapasitas.
 - Batasi efek samping dengan full slice `a[low:high:max]` atau gunakan `copy` untuk memisahkan data.
 - Gunakan `make` untuk menyiapkan slice dengan kapasitas yang direncanakan agar mengurangi alokasi ulang.
+------------------------------------------------------------------------
+### 16. Map di Go
+
+**Map** adalah struktur data yang menyimpan pasangan **key-value** (kunci-nilai). Berbeda dengan array/slice yang diakses dengan index angka, map diakses menggunakan kunci (key) yang bisa berupa tipe data tertentu.
+
+### Karakteristik Map
+- Kunci (key) bersifat **unik**, tidak boleh duplikat.
+- Nilai (value) bisa bertipe data apa saja, tergantung deklarasi.
+- Jika mengakses key yang tidak ada, Go mengembalikan nilai **zero value** dari tipe data value.
+- Jumlah data di map bisa bertambah/berkurang dinamis.
+
+---
+
+### Cara Membuat Map
+1. Menggunakan `make`:
+```go
+student := make(map[string]string)
+student["name"] = "Hary"
+student["age"] = "20"
+```
+
+2. Menggunakan literal map:
+```go
+students := map[string]string{
+    "name":     "Hary Capri",
+    "age":      "18",
+    "semester": "7",
+    "major":    "Informatics",
+}
+```
+
+---
+
+### Contoh Lengkap:
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var students = map[string]string{
+        "name":     "Hary Capri",
+        "age":      "18",
+        "semester": "7",
+        "major":    "Informatics",
+    }
+
+    fmt.Println(students["name"])
+    fmt.Println(students["age"])
+    fmt.Println(students["semester"])
+    fmt.Println(students["major"])
+    fmt.Println(students["majorx"]) // key tidak ada -> hasil zero value ("")
+    fmt.Println(students)
+
+    // Function Map
+    fmt.Println(len(students))       // jumlah elemen map
+    fmt.Println(students["major"])  // akses key
+
+    students["majorx"] = "InformaticsX" // menambah key baru
+    fmt.Println(students["majorx"])
+
+    var studentCopy = make(map[string]string)
+    studentCopy = students            // referensi, bukan copy data baru
+    fmt.Println(studentCopy)
+
+    delete(studentCopy, "name")      // menghapus key "name"
+    fmt.Println("Hapus name :", studentCopy["name"]) // akan tampilkan ""
+}
+```
+
+### Output (ringkas):
+```
+Hary Capri
+18
+7
+Informatics
+
+map[age:18 major:Informatics majorx:InformaticsX semester:7]
+4
+Informatics
+InformaticsX
+map[age:18 major:Informatics majorx:InformaticsX semester:7]
+Hapus name : 
+```
+
+---
+
+### Fungsi Bawaan Map
+- `len(map)` → menghitung jumlah elemen.
+- `delete(map, key)` → menghapus elemen berdasarkan key.
+- Akses `map[key]` dengan key yang tidak ada → mengembalikan zero value.
+
+---
+
+### Insight
+- Map sangat cocok untuk data dengan pasangan **key-value** seperti dictionary, config, dan data lookup.
+- Hati-hati: assignment `mapB = mapA` membuat referensi, bukan salinan baru. Perubahan di salah satu akan memengaruhi yang lain.
+- Untuk benar-benar meng-copy isi map, perlu iterasi manual atau utility tertentu.
+------------------------------------------------------------------------
