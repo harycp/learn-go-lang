@@ -160,4 +160,31 @@ func main() {
 	fmt.Println(factorial(4))
 	// Recursive Factorial
 	fmt.Println(recursiveFactorial(4))
+
+	// Closure
+	counter := 0
+	increment := func() {
+		fmt.Println("counter", counter)
+		counter++
+	}
+
+	increment()
+	increment()
+	increment()
+	increment()
+
+	fmt.Println(counter)
+
+	decrement := func() {
+		fmt.Println("decrement", counter)
+		counter--
+	}
+	decrement()
+	decrement()
+	decrement()
+	decrement()
+	decrement()
+	decrement()
+
+	fmt.Println(counter)
 }
