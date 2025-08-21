@@ -39,6 +39,32 @@ func oddEvenNumber(variable1 int, variable2 int) ([]int, []int) {
 }
 
 // Named return value
+func completeData() (name string, age int, address string) {
+	name = "Hary"
+	age = 21
+	address = "Limo simpang lima tiga ratus"
+
+	return name, age, address
+}
+
+// Variadic Function
+func multipleAll(numbers ...int) int {
+	total := 1
+	for _, number := range numbers {
+		total *= number
+	}
+	return total
+}
+
+// Function value
+func sum(numbers ...int) int {
+	total := 0
+	for _, numbers := range numbers {
+		total += numbers
+	}
+
+	return total
+}
 
 func main() {
 	sayHello()
@@ -52,4 +78,20 @@ func main() {
 	//ignore return value
 	odd1, _ := oddEvenNumber(9, 2)
 	fmt.Println(odd1)
+
+	// named return value
+	name, age, address := completeData()
+	fmt.Println(name, age, address)
+
+	// variadic function
+	total := multipleAll(2, 4, 1, 5, 23, 28, 2, 9, 50)
+	fmt.Println(total)
+
+	// slices parametes
+	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	fmt.Println(multipleAll(numbers...))
+
+	// Function Value
+	sumAll := sum
+	fmt.Println(sumAll(2, 4, 6, 23, 5))
 }

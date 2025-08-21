@@ -1161,9 +1161,72 @@ fmt.Println("Sum:", s, "Diff:", d)
 
 ---
 
+### 6. Variadic Function
+Variadic function menerima jumlah parameter yang **bervariasi**.
+```go
+func multipleAll(numbers ...int) int {
+total := 1
+for _, number := range numbers {
+total *= number
+}
+return total
+}
+```
+Pemanggilan:
+```go
+// Variadic function langsung
+fmt.Println(multipleAll(2, 4, 1, 5, 23, 28, 2, 9, 50))
+
+
+// Slice sebagai parameter (gunakan ...)
+numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+fmt.Println(multipleAll(numbers...))
+```
+**Output:**
+```
+8280000
+362880
+```
+
+
+---
+
+
+### 7. Function Value
+Function di Go adalah **first-class citizen**, artinya function bisa disimpan di variabel, dijadikan parameter, atau bahkan return value.
+
+
+```go
+func sum(numbers ...int) int {
+total := 0
+for _, number := range numbers {
+total += number
+}
+return total
+}
+
+
+func main() {
+// Function disimpan dalam variabel
+sumAll := sum
+fmt.Println(sumAll(2, 4, 6, 23, 5))
+}
+```
+
+
+**Output:**
+```
+40
+```
+
+
+---
+
+
 ### Insight
 - Function di Go mendukung return lebih dari satu nilai, hal ini memudahkan error handling (`value, err`).
 - Bisa mengabaikan return value dengan `_`.
-- Named return membuat kode lebih jelas, tapi sebaiknya tidak berlebihan agar tidak membingungkan.
-- Function adalah dasar untuk modularisasi kode dan digunakan luas di Go, termasuk dalam concurrency (`goroutines`).
+- Named return membuat kode lebih jelas, tapi jangan terlalu banyak digunakan agar tidak membingungkan.
+- Variadic function sangat berguna untuk operasi dengan parameter dinamis, dan bisa menerima slice menggunakan `...`.
+- Function bisa disimpan ke variabel (**function value**) → memungkinkan membuat callback, handler, atau pola functional programming.
 
