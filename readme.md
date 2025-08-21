@@ -1061,3 +1061,109 @@ for i := 0; i < 10; i++ {
 - `range` mempermudah iterasi pada array, slice, map, atau string.
 - `break` dan `continue` bekerja sama seperti bahasa lain (C/Java/JS).
 - Untuk loop tak terbatas, gunakan `for { ... }` lalu hentikan dengan `break`.
+------------------------------------------------------------------------
+### 20. Function di Go
+
+Function adalah blok kode yang bisa dipanggil berulang kali untuk menjalankan tugas tertentu. Go mendukung function dengan parameter, return value, multiple return, dan named return value.
+
+---
+
+### 1. Function Sederhana
+```go
+func sayHello() {
+    fmt.Println("Hello World")
+}
+```
+Pemanggilan:
+```go
+sayHello()
+```
+
+---
+
+### 2. Function dengan Parameter
+```go
+func multiply(variable1 int, variable2 int) {
+    result := variable1 * variable2
+    fmt.Println(result)
+}
+```
+Pemanggilan:
+```go
+multiply(4, 2) // Output: 8
+```
+
+---
+
+### 3. Function dengan Return Value
+```go
+func divide(variable1 int, variable2 int) int {
+    result := variable1 / variable2
+    return result
+}
+```
+Pemanggilan:
+```go
+result := divide(4, 2)
+fmt.Println(result) // Output: 2
+```
+
+---
+
+### 4. Function dengan Multiple Return
+Go memungkinkan function mengembalikan lebih dari satu nilai.
+```go
+func oddEvenNumber(variable1 int, variable2 int) ([]int, []int) {
+    var oddNumber, evenNumber []int
+
+    if variable1%2 == 0 {
+        evenNumber = append(evenNumber, variable1)
+    } else {
+        oddNumber = append(oddNumber, variable2)
+    }
+
+    if variable2%2 == 0 {
+        evenNumber = append(evenNumber, variable2)
+    } else {
+        oddNumber = append(oddNumber, variable1)
+    }
+
+    return oddNumber, evenNumber
+}
+```
+Pemanggilan:
+```go
+odd, even := oddEvenNumber(4, 2)
+fmt.Println("Ganjil", odd)
+fmt.Println("Genap", even)
+
+// Ignore return value dengan `_`
+oddOnly, _ := oddEvenNumber(9, 2)
+fmt.Println(oddOnly)
+```
+
+---
+
+### 5. Named Return Value
+Function bisa menggunakan **named return**. Nilai akan otomatis dikembalikan sesuai nama variabel return.
+```go
+func calculate(x, y int) (sum, diff int) {
+    sum = x + y
+    diff = x - y
+    return // tidak perlu tulis variabel lagi
+}
+```
+Pemanggilan:
+```go
+s, d := calculate(10, 5)
+fmt.Println("Sum:", s, "Diff:", d)
+```
+
+---
+
+### Insight
+- Function di Go mendukung return lebih dari satu nilai, hal ini memudahkan error handling (`value, err`).
+- Bisa mengabaikan return value dengan `_`.
+- Named return membuat kode lebih jelas, tapi sebaiknya tidak berlebihan agar tidak membingungkan.
+- Function adalah dasar untuk modularisasi kode dan digunakan luas di Go, termasuk dalam concurrency (`goroutines`).
+
