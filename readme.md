@@ -1269,7 +1269,67 @@ Hary Capri
 
 ---
 
+### 9. Type Function Declaration
+```go
+// deklarasi type function
+type Filter func(string) string
 
+
+func filterWords(words string, filter Filter) string {
+wordsFilter := filter(words)
+return wordsFilter
+}
+
+
+func filter(words string) string {
+if words == "Anjing" || words == "Babi" || words == "Setan" {
+return "...."
+}
+return words
+}
+
+
+// pemanggilan
+fmt.Println(filterWords("Hary Capri", filter))
+fmt.Println(filterWords("Anjing", filter))
+```
+
+
+**Kegunaan:**
+- Membuat kode lebih ringkas dan readable.
+- Reusable di banyak function dengan signature yang sama.
+- Sering dipakai untuk callback, middleware, atau pipeline processing.
+
+### 10. Anonymous Function
+```go
+type BlockedList func(string) bool
+
+
+func welcomeHello(name string, blocked BlockedList) string {
+if blocked(name) {
+return "You are Blocked " + name
+} else {
+return "Welcome on Board " + name
+}
+}
+
+
+// Anonymous Function
+blocked := func(word string) bool {
+return word == "Anjing" || word == "Babi" || word == "Setan"
+}
+
+
+fmt.Println(welcomeHello("Hary Capri", blocked))
+fmt.Println(welcomeHello("Anjing", blocked))
+```
+
+
+### Penjelasan Anonymous Function
+- Anonymous Function adalah fungsi **tanpa nama**.
+- Biasanya digunakan sekali pakai atau langsung disimpan dalam variabel.
+- Bisa dipass sebagai parameter ke fungsi lain.
+- Pada contoh di atas, fungsi `blocked` mengecek apakah kata termasuk daftar blokir.
 ### Insight
 - Function di Go mendukung return lebih dari satu nilai, hal ini memudahkan error handling (`value, err`).
 - Bisa mengabaikan return value dengan `_`.

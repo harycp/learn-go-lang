@@ -67,7 +67,11 @@ func sum(numbers ...int) int {
 }
 
 // Function as Parameters
-func filterWords(words string, filter func(string) string) string {
+
+// Type function declaration
+type Filter func(string) string
+
+func filterWords(words string, filter Filter) string {
 	wordsFilter := filter(words)
 	return wordsFilter
 }
@@ -77,6 +81,17 @@ func filter(words string) string {
 		return "...."
 	}
 	return words
+}
+
+// Anonymous Function
+type BlockedList func(string) bool
+
+func welcomeHello(name string, blocked BlockedList) string {
+	if blocked(name) {
+		return "You are Blocked " + name
+	} else {
+		return "Welcome on Board " + name
+	}
 }
 
 func main() {
@@ -113,4 +128,11 @@ func main() {
 
 	filterName := filterWords("Anjing", filter)
 	fmt.Println(filterName)
+
+	// Anonymous Function
+	blocked := func(word string) bool {
+		return word == "Anjing" || word == "Babi" || word == "Setan"
+	}
+	fmt.Println(welcomeHello("Hary Capri ", blocked))
+	fmt.Println(welcomeHello("Anjing", blocked))
 }
