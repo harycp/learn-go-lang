@@ -66,6 +66,19 @@ func sum(numbers ...int) int {
 	return total
 }
 
+// Function as Parameters
+func filterWords(words string, filter func(string) string) string {
+	wordsFilter := filter(words)
+	return wordsFilter
+}
+
+func filter(words string) string {
+	if words == "Anjing" || words == "Babi" || words == "Setan" {
+		return "...."
+	}
+	return words
+}
+
 func main() {
 	sayHello()
 	multiply(4, 2)
@@ -94,4 +107,10 @@ func main() {
 	// Function Value
 	sumAll := sum
 	fmt.Println(sumAll(2, 4, 6, 23, 5))
+
+	// Function as parameters
+	fmt.Println(filterWords("Hary Capri", filter))
+
+	filterName := filterWords("Anjing", filter)
+	fmt.Println(filterName)
 }

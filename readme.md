@@ -1230,3 +1230,50 @@ fmt.Println(sumAll(2, 4, 6, 23, 5))
 - Variadic function sangat berguna untuk operasi dengan parameter dinamis, dan bisa menerima slice menggunakan `...`.
 - Function bisa disimpan ke variabel (**function value**) → memungkinkan membuat callback, handler, atau pola functional programming.
 
+### 8. Function as Parameters
+Function bisa dijadikan parameter function lain. Hal ini memungkinkan membuat filter, callback, atau strategi pemrosesan dinamis.
+
+
+```go
+// Function as parameter
+func filterWords(words string, filter func(string) string) string {
+wordsFilter := filter(words)
+return wordsFilter
+}
+
+
+func filter(words string) string {
+if words == "Anjing" || words == "Babi" || words == "Setan" {
+return "...."
+}
+return words
+}
+
+
+func main() {
+fmt.Println(filterWords("Hary Capri", filter))
+
+
+filterName := filterWords("Anjing", filter)
+fmt.Println(filterName)
+}
+```
+
+
+**Output:**
+```
+Hary Capri
+....
+```
+
+
+---
+
+
+### Insight
+- Function di Go mendukung return lebih dari satu nilai, hal ini memudahkan error handling (`value, err`).
+- Bisa mengabaikan return value dengan `_`.
+- Named return membuat kode lebih jelas, tapi jangan terlalu banyak digunakan agar tidak membingungkan.
+- Variadic function sangat berguna untuk operasi dengan parameter dinamis.
+- Function bisa disimpan ke variabel (**function value**).
+- Function juga bisa dijadikan **parameter**, sangat berguna untuk membuat callback, middleware, atau filter logic.
