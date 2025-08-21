@@ -94,6 +94,26 @@ func welcomeHello(name string, blocked BlockedList) string {
 	}
 }
 
+// Factorial
+func factorial(value int) int {
+	result := 1
+	for i := value; i > 0; i-- {
+		result *= i
+	}
+	return result
+}
+
+// Recursive Factorial
+func recursiveFactorial(value int) int {
+	result := 1
+	if value == 1 {
+		return result
+	} else {
+		result = recursiveFactorial(value-1) * value
+	}
+	return result
+}
+
 func main() {
 	sayHello()
 	multiply(4, 2)
@@ -135,4 +155,9 @@ func main() {
 	}
 	fmt.Println(welcomeHello("Hary Capri ", blocked))
 	fmt.Println(welcomeHello("Anjing", blocked))
+
+	// Factorial
+	fmt.Println(factorial(4))
+	// Recursive Factorial
+	fmt.Println(recursiveFactorial(4))
 }

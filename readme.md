@@ -1324,12 +1324,51 @@ fmt.Println(welcomeHello("Hary Capri", blocked))
 fmt.Println(welcomeHello("Anjing", blocked))
 ```
 
-
 ### Penjelasan Anonymous Function
 - Anonymous Function adalah fungsi **tanpa nama**.
 - Biasanya digunakan sekali pakai atau langsung disimpan dalam variabel.
 - Bisa dipass sebagai parameter ke fungsi lain.
 - Pada contoh di atas, fungsi `blocked` mengecek apakah kata termasuk daftar blokir.
+
+
+### 11. Recursive Function (Fungsi Rekursif)
+Recursive function adalah function yang memanggil dirinya sendiri. Contoh klasiknya adalah **factorial**.
+
+
+```go
+// Recursive Factorial
+func recursiveFactorial(value int) int {
+result := 1
+if value == 1 {
+return result
+} else {
+result = recursiveFactorial(value-1) * value
+}
+return result
+}
+
+
+func main() {
+fmt.Println(recursiveFactorial(4)) // Output: 24
+}
+```
+
+
+**Catatan Penting tentang Rekursi:**
+- Harus punya **base case** (kondisi berhenti), agar tidak infinite recursion.
+- Bisa menggantikan loop, tetapi tidak selalu lebih efisien (rekursi dalam Go tidak dioptimasi menjadi tail recursion).
+- Cocok dipakai untuk kasus matematis (faktorial, Fibonacci) atau traversal struktur data (tree, graph).
+
+
+`recursiveFactorial(4)` bekerja seperti ini:
+- `recursiveFactorial(4)` → 4 × `recursiveFactorial(3)`
+- `recursiveFactorial(3)` → 3 × `recursiveFactorial(2)`
+- `recursiveFactorial(2)` → 2 × `recursiveFactorial(1)`
+- `recursiveFactorial(1)` → 1 (base case)
+- Hasil = 4 × 3 × 2 × 1 = **24**
+
+---
+
 ### Insight
 - Function di Go mendukung return lebih dari satu nilai, hal ini memudahkan error handling (`value, err`).
 - Bisa mengabaikan return value dengan `_`.
@@ -1337,3 +1376,4 @@ fmt.Println(welcomeHello("Anjing", blocked))
 - Variadic function sangat berguna untuk operasi dengan parameter dinamis.
 - Function bisa disimpan ke variabel (**function value**).
 - Function juga bisa dijadikan **parameter**, sangat berguna untuk membuat callback, middleware, atau filter logic.
+
