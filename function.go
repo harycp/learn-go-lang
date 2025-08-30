@@ -179,6 +179,7 @@ func main() {
 		fmt.Println("decrement", counter)
 		counter--
 	}
+
 	decrement()
 	decrement()
 	decrement()
