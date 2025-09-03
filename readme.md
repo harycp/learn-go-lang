@@ -1377,3 +1377,105 @@ fmt.Println(recursiveFactorial(4)) // Output: 24
 - Function bisa disimpan ke variabel (**function value**).
 - Function juga bisa dijadikan **parameter**, sangat berguna untuk membuat callback, middleware, atau filter logic.
 
+### Defer, Panic, Recover
+
+
+### 2. Panic
+`panic` digunakan untuk menghentikan program secara langsung ketika terjadi error fatal.
+
+
+```go
+package main
+
+
+import "fmt"
+
+
+func desire() {
+fmt.Println("Choose a command")
+}
+
+
+func endOfProgram() {
+fmt.Println("End of program...")
+}
+
+
+func running(error bool) {
+defer endOfProgram()
+if error {
+panic("ERROR")
+}
+desire()
+}
+
+
+func main() {
+running(true)
+}
+```
+
+
+Output:
+```
+End of program...
+panic: ERROR
+```
+
+
+---
+
+
+### 3. Recover
+`recover` digunakan untuk menangkap `panic` agar program tidak langsung berhenti.
+
+
+```go
+package main
+
+
+import "fmt"
+
+
+func desire() {
+fmt.Println("Choose a command")
+}
+
+
+func endOfProgram() {
+fmt.Println("End of program...")
+message := recover() // menangkap panic
+fmt.Println("There's a message:", message)
+}
+
+
+func running(error bool) {
+defer endOfProgram()
+if error {
+panic("ERROR NIH BANG")
+}
+desire()
+}
+
+
+func main() {
+running(true)
+}
+```
+
+
+Output:
+```
+End of program...
+There's a message: ERROR NIH BANG
+```
+
+
+---
+
+
+### Insight
+- `defer` sangat berguna untuk clean-up, seperti menutup file, koneksi database, atau logging.
+- `panic` sebaiknya dipakai hanya untuk kondisi error yang tidak bisa ditangani.
+- `recover` memungkinkan program tetap berjalan meski ada `panic`, sehingga bisa digunakan untuk error handling yang lebih aman.
+- Pola umum: **defer → panic → recover** sering dipakai untuk error handling tingkat lanjut di Go.
