@@ -7,6 +7,7 @@ type Student struct {
 	Age                int
 	Gpa                float64
 }
+
 type User struct {
 	Age      int
 	ID, Name string

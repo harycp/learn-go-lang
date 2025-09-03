@@ -1554,3 +1554,69 @@ fmt.Println(studentDua)
 - Struct literal dapat dibuat dengan menyebutkan field atau langsung menuliskan nilai sesuai urutan.
 - Operator `&` membuat pointer ke struct, memudahkan passing by reference.
 - Struct menjadi dasar untuk membuat **method** dan pola OOP sederhana di Go.
+
+### Struct Method
+Go mendukung method pada struct, yaitu function yang terikat pada struct tertentu.
+
+
+### Contoh:
+```go
+package main
+
+
+import "fmt"
+
+
+type Subjects struct {
+Title string
+Sks int
+}
+
+
+type Students struct {
+Subjects []Subjects
+Name string
+Nim string
+Gpa float64
+}
+
+
+// Method pada struct Students
+func (student Students) semester(name int) {
+fmt.Println("Your Subject in semester", name)
+for i, sub := range student.Subjects {
+fmt.Printf("%d) %s (%d SKS)\n", i+1, sub.Title, sub.Sks)
+}
+fmt.Println(student.Name)
+fmt.Println(student.Nim)
+fmt.Println(student.Gpa)
+}
+
+
+func main() {
+student := Students{
+Subjects: []Subjects{
+{Title: "MTK DISKRIT", Sks: 3},
+},
+Name: "Michael",
+Nim: "2210511023",
+Gpa: 3.92,
+}
+
+
+student.semester(1)
+}
+```
+
+
+### Output:
+```
+Your Subject in semester 1
+1) MTK DISKRIT (3 SKS)
+Michael
+2210511023
+3.92
+```
+
+
+---
