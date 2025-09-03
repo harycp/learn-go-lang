@@ -1478,4 +1478,79 @@ There's a message: ERROR NIH BANG
 - `defer` sangat berguna untuk clean-up, seperti menutup file, koneksi database, atau logging.
 - `panic` sebaiknya dipakai hanya untuk kondisi error yang tidak bisa ditangani.
 - `recover` memungkinkan program tetap berjalan meski ada `panic`, sehingga bisa digunakan untuk error handling yang lebih aman.
-- Pola umum: **defer → panic → recover** sering dipakai untuk error handling tingkat lanjut di Go.
+- Pola umum: **defer → panic → recover** 
+
+
+### Struct di Go
+
+
+Struct adalah tipe data bentukan (composite data type) yang mengelompokkan beberapa field menjadi satu kesatuan.
+
+
+### Contoh:
+```go
+package main
+
+
+import "fmt"
+
+
+type Student struct {
+NIM, Name, Surname string
+Age int
+Gpa float64
+}
+
+
+type User struct {
+Age int
+ID, Name string
+Gpa float64
+}
+
+
+func main() {
+var student Student
+student.NIM = "2210511023"
+student.Name = "Hary Capri"
+student.Surname = "Hary"
+student.Age = 21
+student.Gpa = 3.92
+
+
+// Struct Literals
+studentOb := &User{
+ID: student.NIM,
+Name: student.Name,
+Age: student.Age,
+Gpa: student.Gpa,
+}
+
+
+studentDua := &User{19, "2210511023", "Hary Capri", 3.92}
+
+
+fmt.Println(student)
+fmt.Println(studentOb)
+fmt.Println(studentDua)
+}
+```
+
+
+### Output:
+```
+{2210511023 Hary Capri Hary 21 3.92}
+&{21 2210511023 Hary Capri 3.92}
+&{19 2210511023 Hary Capri 3.92}
+```
+
+
+---
+
+
+### Insight
+- Struct digunakan untuk merepresentasikan objek dengan beberapa atribut.
+- Field dalam struct bisa berbeda tipe data.
+- Struct literal dapat dibuat dengan menyebutkan field atau langsung menuliskan nilai sesuai urutan.
+- Operator `&` membuat pointer ke struct, memudahkan passing by reference.
+- Struct menjadi dasar untuk membuat **method** dan pola OOP sederhana di Go.
